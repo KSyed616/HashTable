@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+
+extern char *  pop();
+extern void push(char *);
+extern void setCount();
+extern void add(char *);
+extern void print();
+extern int isEmpty();
+
+int main(int argc, char * argv[])
+{
+	int ch;
+	char p1[100], p2[100];
+	setCount();
+  
+	while ((ch = getchar()) != EOF) {
+		if (!(isalpha(ch) || ch == '>' || ch == '<' || ch == '/')){
+			continue;
+		}
+		else if(ch == '<'){
+			ch = getchar();
+			if(isalpha(ch)){
+				char *str;
+				int i = 0;
+				while(ch!='>'){
+					p1[i] = ch;
+					ch = getchar();
+					i++;
+				}
+				p1[i] = '\0';
+				str =(char *) malloc(i);
+				strcpy(str, p1);
+				push(str);
+				add(str);
+			
+			}
+		}
+		else if(ch == '/'){
+			int i = 0;
+			ch = getchar();
+			
+			while(ch!='>'){
+				p2[i] = ch;
+				ch = getchar();
+				i++;
+			}
+			p2[i] = '\0';
+			pop();
+		}
+		if(strcmp(p1, p2)!=0){
+			printf("Not Valid\n");
+			exit(1);
+		}
+	}
+	
+	if(isEmpty() == 0){
+		printf("Valid\n");
+		print();
+		exit(0);
+	}
+	exit(0);
+}
